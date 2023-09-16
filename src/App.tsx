@@ -1,7 +1,5 @@
-export function App() {
+import { Button } from '@/components/ui/button';
 
-  return (
-    <h1>Hello World
-    </h1>
-  )
+export function App() {
+  return <Button>Teste</Button>;
 }
