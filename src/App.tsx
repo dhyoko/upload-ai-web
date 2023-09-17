@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Github, Wand2 } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Separator } from './components/ui/separator';
@@ -12,8 +13,16 @@ import {
 } from './components/ui/select';
 import { Slider } from './components/ui/slider';
 import { VideoInputForm } from './components/video-input-form';
+import { PromptSelect } from './components/prompt-select';
 
 export function App() {
+  const [temperature, setTemperature] = useState(0.5);
+  const [videoId, setVideoId] = useState<string | null>(null);
+
+  const onPromptSelected = (template: string) => {
+    console.log(template);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="px-6 pv-3 flex items-center justify-between border-b">
@@ -51,15 +60,7 @@ export function App() {
           <form className="space-y-6">
             <div className="space-y-2">
               <Label>Prompt</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a prompt..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="title">Title</SelectItem>
-                  <SelectItem value="description">Description</SelectItem>
-                </SelectContent>
-              </Select>
+              <PromptSelect onPromptSelected={onPromptSelected} />
             </div>
             <Separator />
             <div className="space-y-2">
@@ -79,7 +80,13 @@ export function App() {
             <Separator />
             <div className="space-y-4">
               <Label>Weight</Label>
-              <Slider min={0} max={0} step={0.1} />
+              <Slider
+                min={0}
+                max={0}
+                step={0.1}
+                value={[temperature]}
+                onValueChange={(value) => setTemperature(value[0])}
+              />
               <span className="block text-xs text-muted-foreground italic">
                 Higher values should result in more creative results, but also
                 increase the errors.
