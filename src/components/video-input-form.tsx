@@ -9,7 +9,12 @@ import { fetchFile } from '@ffmpeg/util';
 import { api } from '@/lib/axios';
 import { VIDEO_INPUT_SUBMIT_STATUS, InputSubmitStatus } from './utils/consts';
 
-export const VideoInputForm: FC = () => {
+type VideoInputFormProps = {
+  onVideoUploaded: (id: string) => void;
+};
+
+export const VideoInputForm: FC<VideoInputFormProps> = (props) => {
+  const { onVideoUploaded } = props;
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [status, setStatus] = useState<InputSubmitStatus>(
     VIDEO_INPUT_SUBMIT_STATUS.WAITING
@@ -90,6 +95,7 @@ export const VideoInputForm: FC = () => {
     });
 
     setStatus(VIDEO_INPUT_SUBMIT_STATUS.SUCCESS);
+    onVideoUploaded(videoId);
   };
 
   const previewURL = useMemo(() => {

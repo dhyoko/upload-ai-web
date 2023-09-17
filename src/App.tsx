@@ -55,7 +55,7 @@ export function App() {
           </p>
         </div>
         <aside className="w-80 space-y-6">
-          <VideoInputForm />
+          <VideoInputForm onVideoUploaded={setVideoId} />
           <Separator />
           <form className="space-y-6">
             <div className="space-y-2">
