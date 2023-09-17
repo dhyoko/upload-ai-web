@@ -149,7 +149,7 @@ export const VideoInputForm: FC<VideoInputFormProps> = (props) => {
       <Button
         data-success={status === VIDEO_INPUT_SUBMIT_STATUS.SUCCESS}
         type="submit"
-        className="w-full data-[success=true]:bg-emerald-400 text-black"
+        className="w-full data-[success=true]:bg-emerald-400 data-[success=true]:text-black"
         disabled={isDisabled}
       >
         {!isDisabled ? (

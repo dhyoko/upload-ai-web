@@ -14,14 +14,29 @@ import {
 import { Slider } from './components/ui/slider';
 import { VideoInputForm } from './components/video-input-form';
 import { PromptSelect } from './components/prompt-select';
+import { useCompletion } from 'ai/react';
 
 export function App() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
 
-  const onPromptSelected = (template: string) => {
-    console.log(template);
-  };
+  const {
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    completion,
+    isLoading,
+  } = useCompletion({
+    api: `${import.meta.env.VITE_API_URL}/ai/complete`,
+    body: {
+      videoId,
+      temperature,
+    },
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,8 +59,14 @@ export function App() {
             <Textarea
               className="resize-none p-4 leading-relaxed"
               placeholder="Please include the prompt for the AI"
+              value={input}
+              onChange={handleInputChange}
             />
-            <Textarea placeholder="AI analysis result" readOnly />
+            <Textarea
+              placeholder="AI analysis result"
+              readOnly
+              value={completion}
+            />
           </div>
           <p className="text-sm text-muted-foreground">
             Remember you can use
@@ -57,10 +78,10 @@ export function App() {
         <aside className="w-80 space-y-6">
           <VideoInputForm onVideoUploaded={setVideoId} />
           <Separator />
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label>Prompt</Label>
-              <PromptSelect onPromptSelected={onPromptSelected} />
+              <PromptSelect onPromptSelected={setInput} />
             </div>
             <Separator />
             <div className="space-y-2">
@@ -82,7 +103,7 @@ export function App() {
               <Label>Weight</Label>
               <Slider
                 min={0}
-                max={0}
+                max={1}
                 step={0.1}
                 value={[temperature]}
                 onValueChange={(value) => setTemperature(value[0])}
@@ -93,7 +114,7 @@ export function App() {
               </span>
             </div>
             <Separator />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isLoading}>
               Run
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
