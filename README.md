@@ -13,11 +13,20 @@ To develop this app, the following packages were used:
 * [Shadcn/ui](https://ui.shadcn.com/)
 * [Vercel AI SDK](https://sdk.vercel.ai/docs)
 <br/>
+
+This application's back-end service can be found [here](https://github.com/dhyoko/upload-ai-api).
+
+<br/>
+
 To run this project you will need:
 
 > Node 18
 
 <br/>
+
+
+<br/>
+
 After installing the packages, simply run:
 
 ```shell script
